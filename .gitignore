@@ -1,0 +1,8 @@
+# Composer
+vendor
+# npm
+node_modules
+
+# Fichier de config
+app/config.ini
+
