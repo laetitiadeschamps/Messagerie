@@ -25,17 +25,17 @@ class Users extends CoreModel {
     public $description;
 
     /**
-     * Method to add a new friend to our logged in user
+     * Method to accept friend request
      * @param int
      * @return bool
      */
     public function befriend(int $id) {
-        
+        //TODO change status
         $pdo = Database::getPDO();
-        $sql = 'INSERT INTO `has_friend` (`user_id`, `friend_id`)
-        VALUES (:user_id, :friend_id);
-        INSERT INTO `has_friend` (`user_id`, `friend_id`)
-        VALUES (:friend_id, :user_id)';
+        $sql = 'UPDATE `has_friend` SET `status`= 1 WHERE `user_id`= :user_id AND `friend_id`=:friend_id;
+        UPDATE `has_friend` SET `status`= 1 WHERE `user_id`= :friend_id AND `friend_id`=:user_id
+        ';
+        
         
         $pdoStatement = $pdo->prepare($sql);
         $insertedRows = $pdoStatement->execute([
@@ -48,6 +48,7 @@ class Users extends CoreModel {
         return false;
     
     }
+    
     /**
      * Method to find one user based on his id
      * @param int
@@ -142,7 +143,7 @@ class Users extends CoreModel {
         ON chat_users.user_id = users.id
         INNER JOIN has_friend
         ON has_friend.friend_id = users.id
-        WHERE has_friend.user_id = :id AND chat_id IN (
+        WHERE has_friend.user_id = :id AND has_friend.status = 1 AND chat_id IN (
             SELECT chat_id
             FROM chat_users
             WHERE user_id = :id)
@@ -155,25 +156,49 @@ class Users extends CoreModel {
         $users = $pdoStatement->fetchAll(PDO::FETCH_CLASS, 'App\Models\Users');
         return $users;   
     }
-     /**
-     * Method to find the number of unread messages for the logged in user
-     * @return int
+    /**
+     * Method to find all friendship requests for our logged in user
+     * @return Collection|Users[]
      */
-    public function findUnreadCount() {
+    public function findFriendRequests() {
         $pdo = Database::getPDO();
-        $sql = 'SELECT COUNT(*) as quantity FROM `messages`
-        INNER JOIN chat_users
-        ON chat_users.chat_id = messages.chat_id
-        WHERE messages.is_read = false AND chat_users.user_id = :id AND messages.author_id !=:id
-        ';
-        $pdoStatement = $pdo->prepare($sql); 
+        $sql = 'SELECT users.*, has_friend.requestedAt as requestDate
+        FROM users
+        INNER JOIN has_friend
+        ON has_friend.friend_id = users.id
+        WHERE has_friend.user_id = :user_id AND has_friend.status = 0 AND has_friend.requester_id != :user_id
+        ORDER BY has_friend.requestedAt ASC';
+        
+        $pdoStatement = $pdo->prepare($sql);
         $pdoStatement->execute([
-            ':id'=>$this->id
+        ':user_id'=>$_SESSION['id']
         ]);
-        $count = $pdoStatement->fetch();
-        return $count;
+        $users=$pdoStatement->fetchAll(PDO::FETCH_CLASS, self::class);  
+       
+        return $users;
+                
 
-    } 
+    }
+   
+    //  /**
+    //  * Method to find the number of unread messages for the logged in user
+    //  * @return int
+    //  */
+    // public function findUnreadCount() {
+    //     $pdo = Database::getPDO();
+    //     $sql = 'SELECT COUNT(*) as quantity FROM `messages`
+    //     INNER JOIN chat_users
+    //     ON chat_users.chat_id = messages.chat_id
+    //     WHERE messages.is_read = false AND chat_users.user_id = :id AND messages.author_id !=:id
+    //     ';
+    //     $pdoStatement = $pdo->prepare($sql); 
+    //     $pdoStatement->execute([
+    //         ':id'=>$this->id
+    //     ]);
+    //     $count = $pdoStatement->fetch();
+    //     return $count;
+
+    // } 
     /**
      * Method to find the number of unread messages for one specifique user
      *
@@ -203,6 +228,102 @@ class Users extends CoreModel {
      
         return $messages;
     }
+     /**
+     * Method to find all users that contain a specific string
+     * @param string
+     * @return Collection|Users[]
+     */
+    public static function findWithString(string $string) {
+        $pdo = Database::getPDO();
+    $sql = 'SELECT * 
+    FROM `users`
+ 
+    WHERE (`lastname`LIKE :string OR `firstname` LIKE :string) AND role_id=4';
+      
+    $pdoStatement = $pdo->prepare($sql);
+    $pdoStatement->execute([
+    ':string'=>"%$string%"
+   
+    ]);
+        $users=$pdoStatement->fetchAll(PDO::FETCH_CLASS, self::class);
+        
+     
+        return $users;
+ 
+      }
+
+    /**
+     * Method to check friendship status with a user
+     * @return array
+     */
+    public function isFriend() {
+        $pdo = Database::getPDO();
+        $sql = 'SELECT * 
+        FROM `has_friend`
+    
+        WHERE `user_id` = :user_id AND friend_id = :friend_id';
+        
+        $pdoStatement = $pdo->prepare($sql);
+        $pdoStatement->execute([
+        ':user_id'=>$_SESSION['id'],
+        ':friend_id'=>$this->id
+    
+        ]);
+            $user=$pdoStatement->fetch(PDO::FETCH_ASSOC);
+            if($user) {
+                return $user;
+            } else {
+                return false;
+            }     
+
+    }
+    /**
+     * Method to reject a friend request
+     * @param int
+     * @return bool
+     */
+    public function rejectFriendRequest(int $id) {
+        
+        $pdo = Database::getPDO();
+        $sql = 'DELETE FROM has_friend WHERE user_id=:user_id; DELETE FROM has_friend WHERE user_id=:friend_id
+        ';
+        
+        $pdoStatement = $pdo->prepare($sql);
+        $insertedRows = $pdoStatement->execute([
+            ':user_id'=>$this->getId(),
+            ':friend_id'=>$id,   
+        ]);
+        if ($insertedRows > 0) {
+            return true;
+        }
+        return false;
+    
+    }
+    /**
+     * Method to request a new friend (awaiting approval of other party)
+     * @param int
+     * @return bool
+     */
+    public function requestFriend(int $id) {
+        
+        $pdo = Database::getPDO();
+        $sql = 'INSERT INTO `has_friend` (`user_id`, `friend_id`, requester_id)
+        VALUES (:user_id, :friend_id, :user_id);
+        INSERT INTO `has_friend` (`user_id`, `friend_id`, requester_id)
+        VALUES (:friend_id, :user_id, :user_id)';
+        
+        $pdoStatement = $pdo->prepare($sql);
+        $insertedRows = $pdoStatement->execute([
+            ':user_id'=>$this->getId(),
+            ':friend_id'=>$id,   
+        ]);
+        if ($insertedRows > 0) {
+            return true;
+        }
+        return false;
+    
+    }
+
     
     /**
      * Method to create or update a user
@@ -342,7 +463,7 @@ class Users extends CoreModel {
      */ 
     public function setPassword($password)
     { 
-        $regex = '/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)([-+!*$@%_\w]{7,})$/';
+        $regex = '/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)([-+!?*$@%_\w]{7,})$/';
     
     if(preg_match($regex, $password)) {
         
@@ -468,52 +589,11 @@ class Users extends CoreModel {
             return true;
         } else {
             return false;
-        }
-        
-
-    }
-    public function isFriend() {
-        $pdo = Database::getPDO();
-        $sql = 'SELECT * 
-        FROM `has_friend`
-    
-        WHERE `user_id` = :user_id AND friend_id = :friend_id';
-        
-        $pdoStatement = $pdo->prepare($sql);
-        $pdoStatement->execute([
-        ':user_id'=>$_SESSION['id'],
-        ':friend_id'=>$this->id
-    
-        ]);
-            $users=$pdoStatement->fetchAll(PDO::FETCH_CLASS, self::class);
-            if($users) {
-                return true;
-            } else {
-                return false;
-            }
-        
-           
-
+        }    
     }
 
-    public static function findWithString($string) {
-        $pdo = Database::getPDO();
-    $sql = 'SELECT * 
-    FROM `users`
- 
-    WHERE (`lastname`LIKE :string OR `firstname` LIKE :string) AND role_id=4';
-      
-    $pdoStatement = $pdo->prepare($sql);
-    $pdoStatement->execute([
-    ':string'=>"%$string%"
+
    
-    ]);
-        $users=$pdoStatement->fetchAll(PDO::FETCH_CLASS, self::class);
-        
-     
-        return $users;
- 
-      }
 
     /**
      * Get the value of description

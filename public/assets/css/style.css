@@ -258,9 +258,10 @@ nav ul li:not(.logo):hover, nav ul button:hover {
   padding:3em 2em;
   margin:auto;
 }
-.form input {
-  width:90%;
+
+.form input, .form span {
   max-width:300px;
+  
 }
 .form-container .form__title {
   width:100%;
@@ -580,15 +581,20 @@ margin:0 auto;
 }
 .form-container--profile .form__body input, .form-container--profile .form__body span:not(.label) {
   width:65%;
-  padding:.5em;
+  padding:.5rem;
   border: none;
-  
+  vertical-align: middle;
+  font-size: 100%;
 }
 .form-container--profile  .form__body input, .form-container--profile .form__body span {
-  min-height:2.5em;
+  height:2.5em;
+ 
 }
 .form-container--profile .form__body span.description, .form-container--profile .form__body textarea {
   height:5em;
+ 
+}
+ .form-container--profile .form__body textarea {
   overflow: auto;
   width:100%;
 }
@@ -629,7 +635,7 @@ margin:0 auto;
 
 .form-container--profile.editMode input:not([type=file]), .form-container--profile.editMode textarea {
   display: inline-block;
-  font-weight: bold;
+ 
 }
 .form-container--profile.editMode span.firstname, .form-container--profile.editMode span.lastname, .form-container--profile.editMode span.birthdate, .form-container--profile.editMode span.description {
   display: none;
@@ -665,6 +671,7 @@ margin:0 auto;
 .home-body {
   padding: 1.5em;
   color: var(--color-font-light);
+  min-height: 10em;
 }
 
 .home-body h4 {

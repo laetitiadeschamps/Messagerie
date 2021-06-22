@@ -7,13 +7,9 @@ $router = new AltoRouter();
 
 
 if (array_key_exists('BASE_URI', $_SERVER)) {
- 
-    $router->setBasePath($_SERVER['BASE_URI']);
-    
+    $router->setBasePath($_SERVER['BASE_URI']);   
 }
-
-else {
-   
+else {  
     $_SERVER['BASE_URI'] = '/';
 }
 
@@ -66,46 +62,6 @@ $router->map(
 );
 $router->map(
     'GET',
-    '/contacts',
-    [
-        'method' => 'list',
-        'controller' => '\App\Controllers\ContactController'
-    ],
-    'contact-list',
-    
-);
-$router->map(
-    'GET',
-    '/contacts/profile/[i:id]',
-    [
-        'method' => 'profile',
-        'controller' => '\App\Controllers\ContactController'
-    ],
-    'contact-profile',
-    
-);
-$router->map(
-    'GET',
-    '/contacts/befriend/[i:id]',
-    [
-        'method' => 'befriend',
-        'controller' => '\App\Controllers\ContactController'
-    ],
-    'contact-befriend',
-    
-);
-$router->map(
-    'GET',
-    '/contact/supprimer/[i:id]',
-    [
-        'method' => 'unfriend',
-        'controller' => '\App\Controllers\ContactController'
-    ],
-    'contact-unfriend',
-    
-);
-$router->map(
-    'GET',
     '/chat/[i:id]',
     [
         'method' => 'getChat',
@@ -134,6 +90,64 @@ $router->map(
     'chat-sendMessage',
     
 );
+$router->map(
+    'GET',
+    '/contacts',
+    [
+        'method' => 'list',
+        'controller' => '\App\Controllers\ContactController'
+    ],
+    'contact-list',
+    
+);
+$router->map(
+    'GET',
+    '/contacts/profile/[i:id]',
+    [
+        'method' => 'profile',
+        'controller' => '\App\Controllers\ContactController'
+    ],
+    'contact-profile',
+    
+);
+$router->map(
+    'GET',
+    '/contacts/requestBefriend/[i:id]',
+    [
+        'method' => 'requestBefriend',
+        'controller' => '\App\Controllers\ContactController'
+    ],
+    'contact-requestBefriend',    
+);
+$router->map(
+    'GET',
+    '/contacts/befriend/[i:id]',
+    [
+        'method' => 'befriend',
+        'controller' => '\App\Controllers\ContactController'
+    ],
+    'contact-befriend',    
+);
+$router->map(
+    'GET',
+    '/contacts/rejectBefriend/[i:id]',
+    [
+        'method' => 'rejectBefriend',
+        'controller' => '\App\Controllers\ContactController'
+    ],
+    'contact-rejectBefriend',    
+);
+$router->map(
+    'GET',
+    '/contact/supprimer/[i:id]',
+    [
+        'method' => 'unfriend',
+        'controller' => '\App\Controllers\ContactController'
+    ],
+    'contact-unfriend',
+    
+);
+
 $router->map(
     'GET',
     '/compte',

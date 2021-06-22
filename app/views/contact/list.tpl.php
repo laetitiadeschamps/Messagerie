@@ -8,8 +8,10 @@
 </div>
 <div class="contact-list">
   <h3 class="contact-title">Mes contacts </h3>
-
-    <?php foreach ($contacts as $contact) :?>
+  <?php if(!$contacts) : ?>
+                <div class="empty-display">Aucun contact pour le moment</div>
+            <?php endif;
+     foreach ($contacts as $contact) :?>
       
         <div class="contact-card">
            <div class="contact-card__picture"><img src="<?= $baseUri . '/assets/images/' . $contact->getPicture()?>" alt=""></div> 

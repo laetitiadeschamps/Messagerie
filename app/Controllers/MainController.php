@@ -14,9 +14,10 @@ class MainController extends CoreController {
     public function home(){
         $user = Users::find($_SESSION['id']);
         //Get total number of unread messages
-        $countUnread = $user->findUnreadCount();
+        //$countUnread = $user->findUnreadCount();
         //Get unread messages per chat
         $contacts = Users::findUnreadMessageCount();
+        $countUnread = count($contacts);
         //For each contact, we add a chat value with chat id for this user
         foreach($contacts as $key=>$contact) {
             $contacts[$key]['chat']= $user->findChatWithSingleUser($contact['user_id']);
@@ -26,7 +27,12 @@ class MainController extends CoreController {
             return strcmp($b["chat"]->updated_at, $a["chat"]->updated_at);
         }); 
 
-        $this->show('main/home', ['notifications'=>$contacts, 'countUnread'=>$countUnread]);
+       
+       
+        $requests = $user->findFriendRequests();
+        $requestsCount = count($requests);
+       
+        $this->show('main/home', ['notifications'=>$contacts, 'countUnread'=>$countUnread, 'requestsCount'=>$requestsCount, 'requests'=>$requests]);
         
     }
    

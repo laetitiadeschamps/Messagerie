@@ -16,6 +16,7 @@ class ContactController extends CoreController {
         $_SESSION['token'] = $token;
         $user = Users::find($_SESSION['id']);
         $contacts = $user->findContacts();
+       
         $this->show('contact/list', ['contacts'=>$contacts, 'token'=>$token]);
         
     }
@@ -23,7 +24,7 @@ class ContactController extends CoreController {
      * Method for displaying a specific user's profile
      * @return void
      */
-    public function profile(int $id) {
+    public function profile(int $id) { 
         $token = bin2hex(random_bytes(32));
         $_SESSION['token'] = $token;
         $user= Users::find($_SESSION['id']);
@@ -32,6 +33,7 @@ class ContactController extends CoreController {
         $chat = $user->findChatWithSingleUser($contact->getId());
        // Checking if the user is friends with the current logged in user
         $isFriend = $contact->isFriend();
+       
         $this->show('contact/profile', ['user'=>$contact, 'isFriend'=>$isFriend, 'chat'=>$chat, 'token'=>$token]);
     }
     /**
@@ -48,14 +50,15 @@ class ContactController extends CoreController {
         }  
         $this->redirect('contact-list');
     }
-    /**
+     /**
      * Method for befriending a user
      * @return void
      */
     public function befriend(int $id) {
+       
         $user = Users::find($_SESSION['id']);
         if($user->befriend($id)) {
-            $this->addFlashMessage('info', "Liste de contacts mise à jour");
+            $this->addFlashMessage('info', "Votre liste d'amis a été mise à jour");
             // If chat exists do nothing
             //If not, create chat
             if(!$user->findChatWithSingleUser($id)) {
@@ -68,7 +71,41 @@ class ContactController extends CoreController {
             $this->addFlashMessage('error', "Il y a eu une erreur, veuillez réessayer");
         }
        
-        $this->redirect('contact-list');
+        $this->redirect('main-home');
+    }
+    /**
+     * Method for requesting to befriend a user
+     * @return void
+     */
+    public function requestBefriend(int $id) {
+       
+        $user = Users::find($_SESSION['id']);
+        if($user->requestFriend($id)) {
+            $this->addFlashMessage('info', "La demande d'ajout a été envoyée");
+           
+        } else {
+            $this->addFlashMessage('error', "Il y a eu une erreur, veuillez réessayer");
+        }
+       
+        $this->redirect('contact-profile', ['id'=>$id]);
+    }
+     /**
+     * Method for rejecting friend request
+     * @return void
+     */
+    public function rejectBefriend(int $id) {
+        
+        $user = Users::find($_SESSION['id']);
+       
+        if($user->rejectFriendRequest($id)) {
+            $this->addFlashMessage('info', "La demande d'ajout a été supprimée");
+            
+            
+        } else {
+            $this->addFlashMessage('error', "Il y a eu une erreur, veuillez réessayer");
+        }
+       
+        $this->redirect('main-home');
     }
     /**
      * Method for finding users according to search query (API Mode)

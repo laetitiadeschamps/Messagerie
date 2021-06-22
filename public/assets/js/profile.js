@@ -10,7 +10,6 @@ const profile = {
 
         }
        
-       //TODO display photo on upload
     },
     handlePhotoUpload:function(event) {
         const objectURL = URL.createObjectURL(event.target.files[0]);

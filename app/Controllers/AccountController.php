@@ -133,7 +133,7 @@ class AccountController extends CoreController {
                 exit;
             }
          } else {
-             $this->addFlashMessage('error', 'Veuillez revérifier vos champs');
+             $this->addFlashMessage('error', 'Veuillez revérifier vos champs. Seuls les caractères -+!?*$@%_ sont acceptés dans le mot de passe');
              $this->addFlashMessage('object', $user);
              $this->redirect('account-create');
              exit;
