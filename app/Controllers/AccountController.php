@@ -47,6 +47,28 @@ class AccountController extends CoreController {
         $this->show('account/detail', ['user'=>Users::find($_SESSION['id']), 'token'=>$token]);  
     }
 
+    /**
+     * method to set user status as online
+     * @param int
+     * @return void
+     */
+    public function connect(int $id) {
+        $user= Users::find($id);
+        $user->connect(); 
+        header('Content-type: application/json');
+        header('Access-Control-Allow-Origin', '*');
+        header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE');
+        echo json_encode('ok');
+    }
+    /**
+     * method to set user status as offline
+     * @param int 
+     * @return void
+     */
+    public function disconnect(int $id) {
+        $user= Users::find($id);
+        $user->disconnect(); 
+    }
      /**
      * method for processing update of user profile
      *

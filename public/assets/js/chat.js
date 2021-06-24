@@ -2,9 +2,16 @@ const chat = {
     editor:'',
     socket:'',
     init:function() {
+        window.addEventListener('beforeunload', chat.disconnectUser);
+        window.addEventListener('load', chat.connectUser);
         app.socket = new WebSocket('ws://localhost:8080');
+        app.socket.onopen = function(e) {
+           // 
+        };
+        
        if(document.querySelector('.editor')) {
-           let currentChatId =  document.querySelector('#chatId').value;
+        let currentChatId =  document.querySelector('#chatId').value;
+
         app.socket.onmessage = function(event) {
             const list = document.querySelector('.chat-messages');
             let data = JSON.parse(event.data);
@@ -42,10 +49,7 @@ const chat = {
 
         }
     }
-        app.socket.onopen = function(e) {
-            console.log("Connection established!");
-            
-        };
+        
         chat.handleMessageFormat();
         document.querySelector('#newPostForm').addEventListener('submit', chat.generateHTML);
       
@@ -111,6 +115,34 @@ const chat = {
     //    }
        
        
+    },
+    connectUser:function() {
+      
+        const currentUserId = document.querySelector('#userId').value;
+        let config = {
+            method: 'GET',
+            mode: "same-origin",
+            credentials: "same-origin",
+            cache: 'no-cache',
+        }
+       
+        let request = fetch('http://0.0.0.0:8090/connectUser/'+currentUserId, config);
+        
+
+},
+    disconnectUser:function() {
+      
+            const currentUserId = document.querySelector('#userId').value;
+            let config = {
+                method: 'GET',
+                mode: "same-origin",
+                credentials: "same-origin",
+                cache: 'no-cache',
+            }
+           
+            let request = fetch('http://0.0.0.0:8090/disconnectUser/'+currentUserId, config);
+            
+    
     },
     handleMessageFormat:function() {
         var toolbarOptions = [

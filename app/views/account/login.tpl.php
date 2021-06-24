@@ -1,11 +1,10 @@
 <main>
-    
-             <div class="form-container form-container--login">
-    <form class="form" action="" method="post">
-            <header>
-                <h2 class="form__title"> Se connecter</h2>
-            </header>
-            <section class="form__body">
+        <div class="form-container form-container--login">
+            <form class="form" action="" method="post">
+                <header>
+                    <h2 class="form__title"> Se connecter</h2>
+                </header>
+                <section class="form__body">
                     <fieldset>
                         <input type="text" name="login" id="login" placeholder="Votre mail">
                     </fieldset>
@@ -15,9 +14,8 @@
                     <small class="form__error"></small>
                     <button class="btn submit">Se connecter</button>
                     <small>Pas de compte ?<a href="<?= $router->generate('account-create')?>"> Inscrivez-vous !</a></small>
-            </section>
-           
-           
-    </form>
-    </div>
+                </section>
+    
+            </form>
+        </div>
 </main>

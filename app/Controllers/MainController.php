@@ -32,7 +32,10 @@ class MainController extends CoreController {
         $requests = $user->findFriendRequests();
         $requestsCount = count($requests);
        
-        $this->show('main/home', ['notifications'=>$contacts, 'countUnread'=>$countUnread, 'requestsCount'=>$requestsCount, 'requests'=>$requests]);
+        $token = bin2hex(random_bytes(32));
+        $_SESSION['token'] = $token;
+
+        $this->show('main/home', ['notifications'=>$contacts, 'countUnread'=>$countUnread, 'requestsCount'=>$requestsCount, 'requests'=>$requests, 'token'=>$token]);
         
     }
    

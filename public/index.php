@@ -147,6 +147,26 @@ $router->map(
     'contact-unfriend',
     
 );
+$router->map(
+    'GET',
+    '/connectUser/[i:id]',
+    [
+        'method' => 'connect',
+        'controller' => '\App\Controllers\AccountController'
+    ],
+    'account-connect',
+    
+);
+$router->map(
+    'GET',
+    '/disconnectUser/[i:id]',
+    [
+        'method' => 'disconnect',
+        'controller' => '\App\Controllers\AccountController'
+    ],
+    'account-disconnect',
+    
+);
 
 $router->map(
     'GET',

@@ -114,7 +114,10 @@ class CoreController {
         $csrfTokenToCheck = [
             'account-update',
             'chat-delete',
-            'contact-unfriend'   
+            'contact-befriend',
+            'contact-unfriend',
+            'contact-requestBefriend',
+            'contact-rejectBefriend'   
         ];
     
         

@@ -29,7 +29,7 @@
                 <div class="contact-card">
                     <h4>Demande d'ajout de <?= $request->login ?> <span class="count">1</span> </h4>
                    <small>Le <?= $request->requestDate ?></small>
-                   <span class="contact-card__choice"><a href="<?= $router->generate('contact-befriend', ['id'=>$request->id])?>"><i class="fas fa-check"></i></a><a href="<?= $router->generate('contact-rejectBefriend', ['id'=>$request->id])?>"><i class="fas fa-times"></i></a></span>
+                   <span class="contact-card__choice"><a href="<?= $router->generate('contact-befriend', ['id'=>$request->id])?>?token=<?= $token ?>"><i class="fas fa-check"></i></a><a href="<?= $router->generate('contact-rejectBefriend', ['id'=>$request->id])?>?token=<?= $token ?>"><i class="fas fa-times"></i></a></span>
                 </div>
             <?php endforeach; ?>
         </div>

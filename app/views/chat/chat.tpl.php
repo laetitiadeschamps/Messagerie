@@ -1,9 +1,8 @@
 <div class="list-container list-container--chat">
  
     <input type="hidden" id="userId" name="userId" value=<?= $_SESSION['id']?>>
-   
     <h3 class="chat-title"><img src="<?= $baseUri . '/assets/images/' . $contact->getPicture()?>" alt=""> <img src="<?= $baseUri . '/assets/images/' . $_SESSION['userObject']->getPicture()?>" alt=""> <span class="chat-title__text">Conversation avec <?= $contact->login ?> </span></h3>
-
+    
     <div class="chat-new-message">
         <h3 class="new-message__title">Nouveau message</h3>
         <form id="newPostForm" class="new-message__form" action="" method="POST">

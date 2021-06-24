@@ -8,7 +8,7 @@ html {
   --color-error:red;
   --color-divider:gray;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-  font-size: 0.8em;
+  
 }
 body {
   background-color:var(--color-1) ;
@@ -36,7 +36,7 @@ em {
   font-style: italic;
 }
 .container {
-  width:80%;
+  font-size: 0.8em;
   margin:0 auto;
 }
 
@@ -80,8 +80,9 @@ i.hidden, .hidden {
 
 
 .empty-display {
-  color:black;
-  font-size: 1.5em;
+ 
+  font-size: 1em;
+  color:var(--color-divider);
 }
 /* Flash messages */
 .flash-container {
@@ -435,7 +436,7 @@ margin:0 auto;
 .list-search__users-list .user-card {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   padding:1em;
   color:var(--color-font-light);
   background-color: var(--color-1);
@@ -480,9 +481,27 @@ margin:0 auto;
 }
 .contact-card__body {
   font-size: 1.3em;
+  
 }
 .contact-card__body * {
   padding:1em;
+}
+
+.contact-card .login-info {
+  display: inline-block;
+  border-radius: 50%;
+  width:.5em;
+  height:.5em;
+  padding:0;
+  position: relative;
+  top:-.5em;
+}
+
+.login-info--offline {
+  background-color: rgb(209, 17, 17);
+}
+.login-info--online {
+  background-color: rgb(65, 247, 19);
 }
 .contact-card i {
   padding: 0 .5em;
@@ -648,9 +667,8 @@ margin:0 auto;
 .home-title {
   font-size: 1.5em;
   padding: 1.5em;
-  border-bottom: 1px solid var(--color-divider);
-  background-color: var(--color-secondary);
-  color:var(--color-font-light);
+  border-bottom: 1px solid var(--color-secondary);
+ 
   position: relative;
 }
 
@@ -661,8 +679,8 @@ margin:0 auto;
   height:2em;
   width:2em;
   top:-1em;
-  background-color: white;
- color: var(--color-secondary);
+  background-color: var(--color-secondary);
+  color: var(--color-font-light);
   padding:.5em;
   border-radius: 50px;
 
@@ -695,7 +713,7 @@ margin:0 auto;
 
 .user-infos__title {
   font-size: 1.8em;
- background-color: var(--color-secondary);
+ border-bottom: 3px solid var(--color-secondary);
   padding:1em; 
   width:100%;
 }
@@ -703,11 +721,11 @@ margin:0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--color-secondary);
+ 
  
 }
 .user-profile header img {
-  width: 25em;
+  width: 100%;
   height: 25em;
 }
 .user-profile .user-profile__infos {
@@ -920,6 +938,12 @@ border:3px solid var(--color-1);
 }
 @media(min-width:1100px)  {
 
+  .container {
+    width:80%;
+  }
+  .form, .list-container {
+    width:60%;
+  }
  nav #hamburger-nav {
     display: block;
     position: static;
@@ -937,6 +961,10 @@ border:3px solid var(--color-1);
     border-top:1px solid var(--color-font-light);
    
   }
+  nav #hamburger-nav ul li, nav #hamburger-nav ul button {
+    font-size: 1.2em;
+    
+   }
   .form-container--profile form, .list-container--user-profile {
     flex-direction: row;
   }
@@ -976,6 +1004,28 @@ width:75%;
   .contact-card__lastMessage {
     flex-direction: row;
   }
+  .contact-card__body {
+
+    flex-grow:1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  }
  
+  .contact-card__body .contact-card__actions 
+   {
+    display: flex;
+    align-items: center;
+  }
+  .contact .contact-card__actions a {
+    padding:0;
+  }
+  .contact-card__body *, .contact-card__actions a {
+    padding:.5em;
+  }
+  .tooltip-inner {
+    padding: 1em;
+  }
+
   
 }

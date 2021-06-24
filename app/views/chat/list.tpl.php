@@ -6,7 +6,7 @@
         <?php use App\Models\Messages;
         use App\Models\Users;
         if(!$activeChats) : ?>
-            <div class="empty-display">Aucune nouvelle notification</div>
+            <div class="empty-display">Aucune conversation en cours</div>
         <?php endif;
         
         foreach($activeChats as $chat) : ?>

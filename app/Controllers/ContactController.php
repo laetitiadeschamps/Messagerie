@@ -16,7 +16,6 @@ class ContactController extends CoreController {
         $_SESSION['token'] = $token;
         $user = Users::find($_SESSION['id']);
         $contacts = $user->findContacts();
-       
         $this->show('contact/list', ['contacts'=>$contacts, 'token'=>$token]);
         
     }
@@ -34,6 +33,7 @@ class ContactController extends CoreController {
        // Checking if the user is friends with the current logged in user
         $isFriend = $contact->isFriend();
        
+
         $this->show('contact/profile', ['user'=>$contact, 'isFriend'=>$isFriend, 'chat'=>$chat, 'token'=>$token]);
     }
     /**

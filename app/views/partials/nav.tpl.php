@@ -10,6 +10,7 @@
             <div id="hamburger-nav">
                 <ul>
                         <?php if(isset($_SESSION['id'])) : ?>
+                        <input type="hidden" id="userId" value="<?= $_SESSION['id'] ?>">
                            
                             <li><a href="<?= $router->generate('contact-list')?>"> Contacts</a></li>
                             <li><a href="<?= $router->generate('chat-list')?>"> Mes conversations</a></li>

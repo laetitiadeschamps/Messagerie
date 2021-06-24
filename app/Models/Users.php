@@ -30,7 +30,7 @@ class Users extends CoreModel {
      * @return bool
      */
     public function befriend(int $id) {
-        //TODO change status
+        
         $pdo = Database::getPDO();
         $sql = 'UPDATE `has_friend` SET `status`= 1 WHERE `user_id`= :user_id AND `friend_id`=:friend_id;
         UPDATE `has_friend` SET `status`= 1 WHERE `user_id`= :friend_id AND `friend_id`=:user_id
@@ -48,7 +48,38 @@ class Users extends CoreModel {
         return false;
     
     }
-    
+    /**
+     * Method to set user status as online
+     * @param int
+     * @return Users
+     */
+    public function connect() {
+        $pdo = Database::getPDO();
+        $sql = 'UPDATE `users` SET `isConnected`= 1 WHERE `id`= :user_id
+        ';
+        
+        
+        $pdoStatement = $pdo->prepare($sql);
+        $insertedRows = $pdoStatement->execute([
+            ':user_id'=>$this->getId()
+        ]);
+    }
+     /**
+     * Method to set user status as offline
+     * @param int
+     * @return Users
+     */
+    public function disconnect() {
+        $pdo = Database::getPDO();
+        $sql = 'UPDATE `users` SET `isConnected`= 0 WHERE `id`= :user_id
+        ';
+        
+        
+        $pdoStatement = $pdo->prepare($sql);
+        $insertedRows = $pdoStatement->execute([
+            ':user_id'=>$this->getId()
+        ]);
+    }
     /**
      * Method to find one user based on his id
      * @param int
