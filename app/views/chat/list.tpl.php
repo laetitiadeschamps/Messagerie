@@ -11,7 +11,6 @@
         
         foreach($activeChats as $chat) : ?>
 
-
             <div class="contact-card" id="<?= $chat['chat_id']?>">
                 <div class="contact-card__picture">
                     <img src="<?= $baseUri . '/assets/images/' . $chat['picture']?>" alt=""> 
