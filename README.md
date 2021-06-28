@@ -11,3 +11,6 @@ Il est en effet développé en PHP Vanilla et en Javascript Vanilla + quelques l
 
 
 **Je compte refaire ce projet avec Symfony une fois que cela aura été entièrement vu en cours**
+
+Voici la démo du projet : 
+https://user-images.githubusercontent.com/74212211/123646244-52d5ce80-d827-11eb-8fe1-eee6be7aebd6.gif
