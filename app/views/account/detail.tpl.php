@@ -8,7 +8,7 @@
                     <i class="fas fa-chevron-left"></i>
                 </div> 
                 <div class="form__image">
-                    <img src="<?= $baseUri . '/assets/images/' . $_SESSION['userObject']->getPicture()?>" class="form__image--picture" alt=""> 
+                    <img src="<?= $baseUri . '/assets/images/' . $_SESSION['userObject']->getPicture()?>" class="form__image--picture" alt="profile-picture"> 
                     <span class="close-container tooltip"><i class="fas fa-close form__image--reset"><span class="tooltip-inner">Supprimer la photo</span></span></i>
                     <label class="photoUpload tooltip" for="photoUpload"><i class="fas fa-folder-open"></i><span class="tooltip-inner">Charger une image</span></label>
                     <input type="file" name="photoUpload" id="photoUpload" class="hidden" />

@@ -24,10 +24,12 @@ class ContactController extends CoreController {
      * @return void
      */
     public function profile(int $id) { 
+       
         $token = bin2hex(random_bytes(32));
         $_SESSION['token'] = $token;
         $user= Users::find($_SESSION['id']);
         $contact = Users::find($id);
+        
         // Finding chat id for the current user
         $chat = $user->findChatWithSingleUser($contact->getId());
        // Checking if the user is friends with the current logged in user

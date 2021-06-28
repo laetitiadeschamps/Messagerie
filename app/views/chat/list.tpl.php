@@ -13,7 +13,7 @@
 
             <div class="contact-card" id="<?= $chat['chat_id']?>">
                 <div class="contact-card__picture">
-                    <img src="<?= $baseUri . '/assets/images/' . $chat['picture']?>" alt=""> 
+                    <img src="<?= $baseUri . '/assets/images/' . $chat['picture']?>" alt="contact-picture"> 
                 </div>
                 <div class="contact-card__body">
                     <p>

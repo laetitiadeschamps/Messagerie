@@ -12,7 +12,7 @@
     <?php endif;
     foreach ($contacts as $contact) :?>
         <div class="contact-card">
-           <div class="contact-card__picture"><img src="<?= $baseUri . '/assets/images/' . $contact->getPicture()?>" alt=""></div> 
+           <div class="contact-card__picture"><img src="<?= $baseUri . '/assets/images/' . $contact->getPicture()?>" alt="contact-picure"></div> 
            <div class="contact-card__body">
                <p><a href="<?= $router->generate('contact-profile', ['id'=>$contact->getId()])?>"><span><?= $contact->getFirstname() ?> <?= $contact->getLastname() ?></span><span class="login-info <?= $contact->isConnected? 'login-info--online' : 'login-info--offline' ?>"></span></a>
                <div class="contact-card__actions">
@@ -26,7 +26,7 @@
 
 <template id="user-template">
         <div class="user-card">
-           <div class="user-card__picture"><img src="" alt=""></div> 
+           <div class="user-card__picture"><img src="" alt="contact-picture"></div> 
            <div style="display:none"></div>
            <div class="user-card__body">
                <p><a class="profile" href=""><span id="user-card__name"></span></a><a class="befriend"></p> 

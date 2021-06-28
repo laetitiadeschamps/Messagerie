@@ -1,7 +1,7 @@
 
 <div class="list-container list-container--user-profile user-profile">
   <header class="user-profile__picture">
-      <img src="<?= $baseUri . '/assets/images/' . $user->picture?>" alt="">
+      <img src="<?= $baseUri . '/assets/images/' . $user->picture?>" alt="contact-picture">
   </header>
   <div class="user-profile__infos">
       <h3 class="user-infos__title"><?= $user->login ?></h3>

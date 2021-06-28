@@ -20,8 +20,28 @@ class ChatController extends CoreController {
         $_SESSION['token'] = $token;
 
         $chat = Chats::find($id);
+        if(!$chat) {
+            header('HTTP/1.0 403 Forbidden'); 
+            die('You are not allowed to access this file.'); 
+        }
+        
         //For the chat, find the user that is not the current user 
         $contacts = $chat->findUsers();
+       
+        // If our logged in user is not part of the chat's users we return a 403
+        $isAuthorized = false;
+        foreach ($contacts as $contact) {
+            $id = $contact->id;
+            if($id == $_SESSION['id']) {
+                $isAuthorized = true;
+            }
+        }
+        if(!$isAuthorized) {
+            header('HTTP/1.0 403 Forbidden'); 
+            die('You are not allowed to access this file.'); 
+        }
+       
+
         $contacts = array_filter($contacts, function($contact){
             return $contact->id != $_SESSION['id'];
         });

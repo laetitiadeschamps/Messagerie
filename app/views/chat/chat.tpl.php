@@ -1,7 +1,7 @@
 <div class="list-container list-container--chat">
  
     <input type="hidden" id="userId" name="userId" value=<?= $_SESSION['id']?>>
-    <h3 class="chat-title"><img src="<?= $baseUri . '/assets/images/' . $contact->getPicture()?>" alt=""> <img src="<?= $baseUri . '/assets/images/' . $_SESSION['userObject']->getPicture()?>" alt=""> <span class="chat-title__text">Conversation avec <?= $contact->login ?> </span></h3>
+    <h3 class="chat-title"><img src="<?= $baseUri . '/assets/images/' . $contact->getPicture()?>" alt="contact-picture"> <img src="<?= $baseUri . '/assets/images/' . $_SESSION['userObject']->getPicture()?>" alt="profile-picture"> <span class="chat-title__text">Conversation avec <?= $contact->login ?> </span></h3>
     
     <div class="chat-new-message">
         <h3 class="new-message__title">Nouveau message</h3>
@@ -12,7 +12,7 @@
             <input type="hidden" name="chatId" id="chatId" value="<?=$chat->id ?>"/>
             <input type="hidden" name="authorId" id="authorId" value="<?=$_SESSION['id'] ?>"/>
             <input type="hidden" name="authorName" id="authorName" value="<?=$_SESSION['userObject']->login ?>"/>
-            <input type="submit" class="btn submit">
+            <input type="submit" class="btn submit" value="Envoyer">
         </form>
     </div>
     <div class="chat-messages">

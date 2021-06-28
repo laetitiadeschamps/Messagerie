@@ -3,41 +3,35 @@ const contact = {
         document.querySelector('#searchText') ? document.querySelector('#searchText').addEventListener('keyup', contact.handleContactSearch):'';
         document.querySelector('.showModal') ? document.querySelectorAll('.showModal').forEach(element=> {
             element.addEventListener('click', contact.handleModalDisplay);
-        }) : '';
-        
+        }) : '';   
     },
     handleModalDisplay :function(e){
         let modal = e.currentTarget.parentNode.querySelector('.modal-confirm');
-       modal.classList.add('visible');
+        modal.classList.add('visible');
     },
     handleContactSearch:function(e) {
         document.querySelector('.list-search__users-list').textContent='';
-       let value = e.currentTarget.value;
-       contact.fetchContacts(value);
+        let value = e.currentTarget.value;
+        contact.fetchContacts(value);
     },
     fetchContacts:function(value) {
-      
         let config = {
             method: 'GET',
             mode: 'cors',
             cache: 'no-cache'
         }
-     
-        let request = fetch('http://0.0.0.0:8090/users/'+value, config);
+        let request = fetch(app.baseUrl+'users/'+value, config);
         request.then(response=> {
-            
             return response.json();
         })
         .then (jsonResponse => {
             document.querySelector('.list-search__searchbar').style.borderRadius="2em 2em 0 0";
-           
             if(!jsonResponse.length) {
                 document.querySelector('.list-search__searchbar').style.borderRadius="2em";
                 return;
             }
-           jsonResponse.forEach(user=> {
+            jsonResponse.forEach(user=> {
             let templateElement = document.querySelector('#user-template');
-            console.log(user);
             let userFragment = templateElement
             .content
             .cloneNode(true)
@@ -51,9 +45,10 @@ const contact = {
            })
         })
         .catch(error=> {
+            
             document.querySelector('.list-search__searchbar').style.borderRadius="2em";
         })
-    },
+    }
     
     
 }
